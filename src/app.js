@@ -2,6 +2,10 @@ const express = require("express");
 const usermodal = require("../src/models/user.model");
 const userController = require("./controoller/user.controller")
 const categoryController = require("./controoller/categroy.controller")
+
+const path = require("path");
+const blogController = require('./controoller/blog.controller')
+const upload = require('./middleware/multer.MIddleware')
 const app = express();
 require("dotenv").config();
 
@@ -21,6 +25,17 @@ app.post("/create-category", categoryController.createCategory);
 app.get("/getallCateggroy", categoryController.getAllcategory);
 app.get("/single-category/:name", categoryController.getsinglecategory)
 app.put("/update-category/:id", categoryController.updateCategoryName);
-
 app.delete("/delete-category/:id", categoryController.deletecategorydata);
+
+
+
+
+// blog routes
+app.post("/create-blog", upload.single("image"), blogController.createBlog);
+
+app.get("/getall-blog", blogController.getAllblog);
+app.get("/getsingle-blog/:id", blogController.singleBlog)
+app.put("/update-blog/:id", blogController.updateblog)
+app.use("/static", express.static("public/temp"));
+
 module.exports = { app };
