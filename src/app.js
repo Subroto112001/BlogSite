@@ -35,7 +35,7 @@ app.post("/create-blog", upload.single("image"), blogController.createBlog);
 
 app.get("/getall-blog", blogController.getAllblog);
 app.get("/getsingle-blog/:id", blogController.singleBlog)
-app.put("/update-blog/:id", blogController.updateblog)
+app.put("/update-blog/:id",upload.single("image"), blogController.updateblog)
 app.use("/static", express.static("public/temp"));
 
 module.exports = { app };

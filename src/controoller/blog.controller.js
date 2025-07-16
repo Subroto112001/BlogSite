@@ -1,5 +1,6 @@
 const blogModel = require("../models/blog.model");
-
+const fs = require("fs")
+const path = require("path")
 // @desc blog will create here
 exports.createBlog = async (req, res) => {
   try {
@@ -79,26 +80,57 @@ exports.singleBlog = async (req, res) => {
 // @desc upddate blog
 exports.updateblog = async (req, res) => {
   try {
-    const { blogTitle, blogDescription } = req.body;
-    const image = req.file;
     const { id } = req.params;
 
-    // is exist this blog
     const blogdata = await blogModel.findById(id);
+
+    if (!blogdata) {
+      return res.status(404).json({
+        msg: `Blog with ID ${id} not found.`,
+      });
+    }
+
     blogdata.blogTitle = req.body.blogTitle || blogdata.blogTitle;
     blogdata.blogDescription =
       req.body.blogDescription || blogdata.blogDescription;
 
+    if (req.file) {
+      const part = blogdata.image.split("/");
+      const targetpath = path.join("public", "temp", part[part.length - 1]);
+     fs.unlinkSync(targetpath)
+  
+   
+    
+      blogdata.image = `http://localhost:4000/static/${req.file.filename}`;
+
+    } else {
+      blogdata.image = blogdata.image
+    }
+  
     await blogdata.save();
+
     return res.status(200).json({
-      msg: `category blogdata sucessfully.`,
+      msg: `Blog updated successfully.`,
       data: blogdata,
     });
   } catch (error) {
-    console.log("error from updateblog", error);
-    return res.status(401).json({
-      msg: `error from updateblog`,
-      error: error,
+    console.error("Error from updateblog:", error);
+    return res.status(500).json({
+      msg: `Error updating blog.`,
+      error: error.message,
     });
   }
 };
+ 
+// @desc delete blog
+exports.deleteBlog = async (req, res) => {
+  try {
+    
+  } catch (error) {
+      console.log("error from deleteBlog", error);
+      return res.status(401).json({
+        msg: `error from deleteBlog`,
+        error: error,
+      });
+  }
+}
