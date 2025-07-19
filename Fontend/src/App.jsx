@@ -4,6 +4,7 @@ import Signup from './Pages/Signup'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Homepage from './Pages/Homepage'
 import Blogpage from './Pages/Blogpage'
+import BlogUpdate from './Pages/BlogUpdate'
 const App = () => {
   return (
     <BrowserRouter>
@@ -12,6 +13,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route index element={<Homepage />} />
         <Route path='/blogpage' element={ <Blogpage/>} />
+        <Route path='/blogupdate' element={ <BlogUpdate/>} />
       </Routes>
     </BrowserRouter>
   );
