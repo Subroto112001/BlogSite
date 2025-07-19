@@ -15,16 +15,8 @@ exports.registration = async (req, res) => {
         msg: "email Missing",
       });
     }
-    if (!avatar) {
-      return res.status(401).json({
-        msg: "avatar Missing",
-      });
-    }
-    if (!phoneNumber) {
-      return res.status(401).json({
-        msg: "phoneNumber Missing",
-      });
-    }
+   
+   
     if (!password) {
       return res.status(401).json({
         msg: "password Missing",
@@ -52,8 +44,7 @@ exports.registration = async (req, res) => {
     usermodal.create({
       userName,
       email,
-      avatar,
-      phoneNumber,
+   
       password,
       ...req.body,
     });

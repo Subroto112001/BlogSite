@@ -50,7 +50,9 @@ const navigate = useNavigate()
  const handleBlogViewPage = (blog) => {
    navigate("/blogpage", { state: blog });
  };
-
+  const handleCreateaBlog = () => {
+  navigate("/postblog");
+};
   return (
     <div className="min-h-screen bg-gray-100 ">
       <div className="flex flex-row gap-6">
@@ -69,6 +71,7 @@ const navigate = useNavigate()
                 Since 2012
               </h3>
             </div>
+            <button className="bg-white py-2 px-3 rounded-3xl cursor-pointer" onClick={handleCreateaBlog}>Create Blog</button>
           </div>
 
           <div

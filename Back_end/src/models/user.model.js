@@ -16,15 +16,7 @@ const userSchema = new Schema({
     required: true,
     trim: true,
     },
-    avatar: {
-        type: String,
-    trim: true    
-  },
-  phoneNumber: {
-    type: Number,
-    required: true,
-    trim: true,
-    },
+  
     password: {
         type: String,
         required: true,
@@ -32,18 +24,7 @@ const userSchema = new Schema({
         min: [6]
     }
     ,
-    lastLogin: {
-        type: Date,
-        trim: true
-    },
-    presentAddress: {
-        type: String,
-    trim: true ,
-    },
-    permanenAddress: {
-        type: String,
-    trim: true ,
-    }
+ 
 
 }, {
     timestamps: true

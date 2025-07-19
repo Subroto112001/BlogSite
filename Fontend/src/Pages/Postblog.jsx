@@ -1,20 +1,25 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const BlogUpdatePage = () => {
+const Postblog = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const blog = location.state; 
-
- 
-
+  const blog = location.state;
+  const [blogdata, setBlogdata] = useState({
+    blogTitle: "",
+    blogDescription: "",
+    image: "",
+  });
   const handleChange = (e) => {
-  
+    const { id, value } = e.target;
+    setBlogdata({
+      ...blogdata,
+      [id]: value
+    });
   };
+console.log(blogdata);
 
-  const handleSubmit = (e) => {
-   
-  };
+  const handleSubmit = (e) => {};
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center">
@@ -22,13 +27,12 @@ const BlogUpdatePage = () => {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-xl"
       >
-        <h2 className="text-3xl font-bold mb-6 text-center">Update Blog</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">Create Blog</h2>
 
         <label className="block mb-2 text-gray-700">Title</label>
         <input
           type="text"
-          name="title"
-       
+          id="blogTitle"
           onChange={handleChange}
           className="w-full border p-2 rounded-lg mb-4"
           required
@@ -36,8 +40,7 @@ const BlogUpdatePage = () => {
 
         <label className="block mb-2 text-gray-700">Description</label>
         <textarea
-          name="excerpt"
-      
+          id="blogDescription"
           onChange={handleChange}
           className="w-full border p-2 rounded-lg mb-4"
           rows={3}
@@ -46,9 +49,9 @@ const BlogUpdatePage = () => {
 
         <label className="block mb-2 text-gray-700">Image URL</label>
         <input
-          type="text"
+          type="file"
           name="image"
-      
+          id="image"
           onChange={handleChange}
           className="w-full border p-2 rounded-lg mb-6"
         />
@@ -65,7 +68,7 @@ const BlogUpdatePage = () => {
             type="submit"
             className="px-6 py-2 bg-amber-400 text-white rounded-lg"
           >
-            Save Changes
+            Create
           </button>
         </div>
       </div>
@@ -73,4 +76,4 @@ const BlogUpdatePage = () => {
   );
 };
 
-export default BlogUpdatePage;
+export default Postblog;
