@@ -16,7 +16,7 @@ const Signup = () => {
     });
   };
  
-
+// post data will here
   const handleSignUp = async () => {
     const { email, userName, password } = singupdetails;
     const users = {

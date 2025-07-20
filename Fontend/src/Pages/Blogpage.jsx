@@ -6,13 +6,14 @@ const BlogPage = () => {
   const navigate = useNavigate();
   const blog = location.state; // blog data passed from Homepage
 
+
   if (!blog) {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center">
         <h2 className="text-xl text-red-500">No blog found!</h2>
         <button
           className="mt-4 px-6 py-2 bg-amber-400 text-white rounded-lg"
-          onClick={() => navigate("/")}
+          onClick={() => navigate(-1)}
         >
           Go Back
         </button>
@@ -30,14 +31,10 @@ const BlogPage = () => {
         />
         <h1 className="text-4xl font-bold text-gray-800 mb-4">{blog.title}</h1>
         <p className="text-gray-500 mb-2">
-          By {blog.author} | {blog.date}
+         {blog.blogTitle} 
         </p>
         <p className="text-lg text-gray-700 leading-relaxed">
-          {blog.excerpt} <br />
-          <br />
-          {/* For now using excerpt as content placeholder */}
-          Here would be the full blog content. You can fetch it from a backend
-          later.
+          {blog.blogDescription}
         </p>
 
         <div className=" flex flex-row justify-between items-center">

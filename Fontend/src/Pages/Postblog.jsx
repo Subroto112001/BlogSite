@@ -1,29 +1,60 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Postblog = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const blog = location.state;
+
   const [blogdata, setBlogdata] = useState({
     blogTitle: "",
     blogDescription: "",
-    image: "",
+    image: null, // use null for file object
   });
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setBlogdata({
-      ...blogdata,
-      [id]: value
-    });
-  };
-console.log(blogdata);
 
-  const handleSubmit = (e) => {};
+  const handleChange = (e) => {
+    const { id, value, files } = e.target;
+
+    // If file input
+    if (id === "image") {
+      setBlogdata({
+        ...blogdata,
+        image: files[0], // use files[0] for file
+      });
+    } else {
+      setBlogdata({
+        ...blogdata,
+        [id]: value,
+      });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+
+    const formData = new FormData();
+    formData.append("blogTitle", blogdata.blogTitle);
+    formData.append("blogDescription", blogdata.blogDescription);
+    formData.append("image", blogdata.image);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/create-blog",
+        formData
+      );
+
+      if (response.status === 201) {
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("Error creating blog:", error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center">
-      <div
+      <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-xl"
       >
@@ -33,6 +64,7 @@ console.log(blogdata);
         <input
           type="text"
           id="blogTitle"
+          value={blogdata.blogTitle}
           onChange={handleChange}
           className="w-full border p-2 rounded-lg mb-4"
           required
@@ -41,19 +73,21 @@ console.log(blogdata);
         <label className="block mb-2 text-gray-700">Description</label>
         <textarea
           id="blogDescription"
+          value={blogdata.blogDescription}
           onChange={handleChange}
           className="w-full border p-2 rounded-lg mb-4"
-          rows={3}
+         
           required
         />
 
-        <label className="block mb-2 text-gray-700">Image URL</label>
+        <label className="block mb-2 text-gray-700">Image</label>
         <input
           type="file"
-          name="image"
           id="image"
           onChange={handleChange}
           className="w-full border p-2 rounded-lg mb-6"
+          accept="image/*"
+          required
         />
 
         <div className="flex justify-between">
@@ -71,7 +105,7 @@ console.log(blogdata);
             Create
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

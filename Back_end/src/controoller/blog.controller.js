@@ -10,7 +10,7 @@ exports.createBlog = async (req, res) => {
     const saveBlog = await new blogModel({
       blogTitle: req.body.blogTitle,
       blogDescription: req.body.blogDescription,
-      image: `http//:localhost:4000/static/${req.file.filename}`,
+      image: `http://localhost:4000/static/${req.file.filename}`,
     }).save();
 
     if (!saveBlog) {
