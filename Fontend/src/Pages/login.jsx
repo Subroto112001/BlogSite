@@ -8,7 +8,7 @@ const login = () => {
       password: "",
     });
   
-  
+  const [homeinfo, sethomeinfo]= useState({})
   const navigate = useNavigate()
   
       const handleTakeLoginInfo = (e) => {
@@ -20,21 +20,26 @@ const login = () => {
       };
 
 
-  const handleLogin = async () => {
+const handleLogin = async () => {
+  const { email, password } = logindetails;
+  const users = { email, password };
 
-    const { email, password } = logindetails;
-    const users = {
-      email,
-      password
+  try {
+    const response = await axios.post("http://localhost:4000/login", users);
+    console.log(response.data);
+
+    if (response.status === 200) {
+      const userInfo = response.data.user; 
+      console.log(userInfo);
+      
+      navigate("/home", { state: { id: userInfo.id } });
     }
-  const response = await axios.post("http://localhost:4000/login", users);
-     console.log(response.data);
-     if (response.status === 200) {
-       navigate("/home");
-     }
+  } catch (error) {
+    console.error("Login failed", error);
+  }
+};
 
-
-}
+  
   
   
   return (

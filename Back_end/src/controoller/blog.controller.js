@@ -64,7 +64,7 @@ exports.singleBlog = async (req, res) => {
         msg: `Singleblog not found`,
       });
     }
-    return res.status(201).json({
+    return res.status(200).json({
       msg: `Singleblog get sucessfully`,
       data: Singleblog,
       status: 201,

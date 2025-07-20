@@ -6,6 +6,7 @@ import Homepage from './Pages/Homepage'
 import Blogpage from './Pages/Blogpage'
 import BlogUpdate from './Pages/BlogUpdate'
 import Postblog from "./Pages/Postblog";
+import Profile from './Pages/Profile'
 const App = () => {
   return (
     <BrowserRouter>
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route index path="/home" element={<Homepage />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/blogpage" element={<Blogpage />} />
         <Route path="/blogupdate" element={<BlogUpdate />} />
         <Route path="/postblog" element={<Postblog />} />

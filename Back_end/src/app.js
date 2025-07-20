@@ -21,6 +21,7 @@ app.get("/test", (req, res) => {
 });
 app.post("/registration", userController.registration);
 app.post("/login", userController.login);
+app.get("/get-singleuser/:id", userController.getSingleUser);
 
 // category routes
 app.post("/create-category", categoryController.createCategory);

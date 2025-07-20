@@ -1,12 +1,18 @@
 // BlogHomePage.jsx
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Homepage = () => {
   const [blogs, setBlogs] = useState([]);
-
+  const [userdata, setUserdata]= useState("")
+  const location = useLocation();
+  const userData = location.state;
   const navigate = useNavigate();
+
+  const userid = userData.id
+
+  // there will fetch blog data
   useEffect(() => {
     const getAllblog = async () => {
       try {
@@ -20,10 +26,37 @@ const Homepage = () => {
     };
     getAllblog();
   }, []);
-  console.log(blogs);
+ 
+  // there will fetch userdata
+  
+ useEffect(() => {
+   const getuserdata = async () => {
+     try {
+       const userdata = await axios.get(
+         `http://localhost:4000/get-singleuser/${userid}`
+       );
+       const userme = userdata.data.data;
 
+
+
+
+ setUserdata(userme);
+      
+     } catch (error) {
+       console.log("error from get user", error);
+     }
+   };
+   getuserdata();
+ }, []);
+
+  
+  console.log(userdata);
+  
+
+
+  // ********
   const handelLogout = () => {
-    navigate("login");
+    navigate("/login");
   };
 
   const handleBlogViewPage = (blog) => {
@@ -32,6 +65,8 @@ const Homepage = () => {
   const handleCreateaBlog = () => {
     navigate("/postblog");
   };
+  
+
   return (
     <div className="min-h-screen bg-gray-100 ">
       <div className="flex flex-row gap-6">
@@ -43,12 +78,18 @@ const Homepage = () => {
 
             <div className="flex flex-col justify-center items-center">
               <h3 className="font-medium text-[20px] text-gray-700">
-                Demo name
+                {userdata.userName}
               </h3>
               <h3 className="font-medium text-[18px] text-gray-700 italic">
-                Since 2012
+                {userdata.createdAt?.slice(0, 10)}
               </h3>
             </div>
+            <button
+              className="bg-white py-2 px-3 rounded-3xl cursor-pointer"
+              onClick={() => navigate("/profile")}
+            >
+              Profile
+            </button>
             <button
               className="bg-white py-2 px-3 rounded-3xl cursor-pointer"
               onClick={handleCreateaBlog}
