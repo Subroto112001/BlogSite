@@ -44,9 +44,10 @@ const Postblog = () => {
         formData
       );
 
-      if (response.status === 201) {
-        navigate("/home");
-      }
+    if (response.status === 200 || response.status === 201) {
+      navigate("/home");
+    }
+
     } catch (error) {
       console.error("Error creating blog:", error);
     }
@@ -76,7 +77,6 @@ const Postblog = () => {
           value={blogdata.blogDescription}
           onChange={handleChange}
           className="w-full border p-2 rounded-lg mb-4"
-         
           required
         />
 
@@ -94,13 +94,13 @@ const Postblog = () => {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="px-6 py-2 bg-gray-400 text-white rounded-lg"
+            className="px-6 py-2 bg-gray-400 text-white rounded-lg  cursor-pointer"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="px-6 py-2 bg-amber-400 text-white rounded-lg"
+            className="px-6 py-2 bg-amber-400 text-white rounded-lg cursor-pointer"
           >
             Create
           </button>

@@ -5,13 +5,21 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const Homepage = () => {
   const [blogs, setBlogs] = useState([]);
-  const [userdata, setUserdata]= useState("")
+  const [userdata, setUserdata] = useState("");
   const location = useLocation();
   const userData = location.state;
   const navigate = useNavigate();
 
-  const userid = userData.id
 
+  const userid = userData?.id;
+
+  if (userid) {
+    localStorage.setItem("userid", userid);
+  }
+
+  const savedUserId = localStorage.getItem("userid");
+  console.log(savedUserId);
+  
   // there will fetch blog data
   useEffect(() => {
     const getAllblog = async () => {
@@ -26,33 +34,27 @@ const Homepage = () => {
     };
     getAllblog();
   }, []);
- 
+
   // there will fetch userdata
-  
+
  useEffect(() => {
+   // Avoid calling API with undefined ID
+
    const getuserdata = async () => {
      try {
        const userdata = await axios.get(
-         `http://localhost:4000/get-singleuser/${userid}`
+         `http://localhost:4000/get-singleuser/${savedUserId}`
        );
-       const userme = userdata.data.data;
-
-
-
-
- setUserdata(userme);
-      
+       setUserdata(userdata.data.data);
      } catch (error) {
        console.log("error from get user", error);
      }
    };
    getuserdata();
- }, []);
+ }, [savedUserId]);
 
-  
+
   console.log(userdata);
-  
-
 
   // ********
   const handelLogout = () => {
@@ -65,7 +67,6 @@ const Homepage = () => {
   const handleCreateaBlog = () => {
     navigate("/postblog");
   };
-  
 
   return (
     <div className="min-h-screen bg-gray-100 ">
